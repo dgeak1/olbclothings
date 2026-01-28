@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE CHECKOUT | OLB ATELIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+   <script src="https://js.paystack.co/v1/inline.js"></script>
+   <style>
+        :root {
+            --bg: #050505; 
+            --text: #ffffff; 
+            --gold: #af944d;
+            --gold-muted: rgba(175, 148, 77, 0.2);
+            --accent: rgba(255,255,255,0.05); 
+            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header { 
+            padding: 30px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--accent);
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; letter-spacing: 12px; text-decoration: none; color: var(--text); text-transform: uppercase; transition: var(--transition); }
+        .logo:hover { color: var(--gold); }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 100px;
+            padding: 100px 6%;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-style: italic; font-weight: 300; margin-bottom: 50px; letter-spacing: -1px; }
+        .section-label { font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; display: block; font-weight: 600; }
+
+        /* ADVANCED INPUT STYLING */
+        .input-group { 
+            margin-bottom: 40px; 
+            position: relative;
+        }
+        
+        label { 
+            display: block; 
+            font-size: 8px; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--accent);
+            border-radius: 0; /* Sharp luxury edges */
+            color: var(--text);
+            padding: 18px 20px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 1px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.2);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input:focus { 
+            border-color: var(--gold);
+            background: rgba(175, 148, 77, 0.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* ORDER SUMMARY BOX */
+        .summary-side { position: relative; }
+        
+        .summary-box {
+            background: #0a0a0a;
+            padding: 50px;
+            border: 1px solid var(--accent);
+            position: sticky;
+            top: 120px;
+            transition: var(--transition);
+        }
+
+        .summary-box:hover {
+            border-color: rgba(175, 148, 77, 0.3);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .item-name {
+            font-family: 'Cormorant Garamond', serif !important;
+            font-size: 1.4rem !important;
+            text-transform: none !important;
+            letter-spacing: 0 !important;
+            font-style: italic;
+        }
+
+        .total-row {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .total-row span:first-child {
+            font-size: 10px;
+            letter-spacing: 5px;
+            color: var(--gold);
+        }
+
+        .total-row span:last-child {
+            font-size: 2.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        /* BUTTON DESIGN */
+        .pay-btn {
+            width: 100%;
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 28px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 50px;
+            font-size: 10px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pay-btn:hover { 
+            background: var(--gold); 
+            color: #fff; 
+            transform: translateY(-5px);
+            letter-spacing: 8px;
+        }
+
+        .trust-badges {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+
+        .trust-badges:hover { opacity: 0.8; }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 7px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .dot { height: 4px; width: 4px; background: var(--gold); border-radius: 50%; }
+
+        @media (max-width: 1100px) {
+            .checkout-container { gap: 40px; }
+        }
+
+        @media (max-width: 968px) {
+            .checkout-container { grid-template-columns: 1fr; padding-top: 40px; }
+            .summary-box { position: relative; top: 0; padding: 30px; }
+            h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">OLB</a>
+        <a href="gallery.html" style="font-size: 10px; color: var(--text); text-decoration: none; letter-spacing: 2px; opacity: 0.6;">[ RETURN TO GALLERY ]</a>
+    </header>
+
+    <div class="checkout-container">
+        <div class="checkout-form">
+            <span class="section-label">01. Delivery Information</span>
+            <h2>Shipping Details</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="Olumide">
+                </div>
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Bakare">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="atelier@olbclothings.com">
+            </div>
+
+            <div class="input-group">
+                <label>Shipping Address (Global)</label>
+                <input type="text" placeholder="Street address, Apartment, Suite">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="input-group">
+                    <label>City</label>
+                    <input type="text" placeholder="Ibadan">
+                </div>
+                <div class="input-group">
+                    <label>State</label>
+                    <input type="text" placeholder="Oyo">
+                </div>
+                <div class="input-group">
+                    <label>Postal Code</label>
+                    <input type="text" placeholder="200213">
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-side">
+            <div class="summary-box">
+                <span class="section-label">02. Order Summary</span>
+                <div id="checkout-items" style="margin: 30px 0;">
+                    </div>
+
+                <div class="summary-item" style="opacity: 0.6;">
+                    <span>Subtotal</span>
+                    <span id="subtotal">₦0</span>
+                </div>
+                <div class="summary-item" style="opacity: 0.6;">
+                    <span>Shipping (Ibadan/Lagos)</span>
+                    <span>₦5,000</span>
+                </div>
+                
+                <div class="total-row">
+                    <span>TOTAL</span>
+                    <span id="final-total">₦0</span>
+                </div>
+
+                <button class="pay-btn" onclick="processPayment()">Complete Purchase</button>
+
+                <div class="trust-badges">
+                    <span style="font-size: 8px; letter-spacing: 1px;">PAYSTACK SECURED</span>
+                    <span style="font-size: 8px; letter-spacing: 1px;">SSL ENCRYPTED</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve data from LocalStorage (shared with index.html)
+        let vaultData = JSON.parse(localStorage.getItem('olb_vault')) || [];
+
+        function loadSummary() {
+            const container = document.getElementById('checkout-items');
+            const subtotalEl = document.getElementById('subtotal');
+            const totalEl = document.getElementById('final-total');
+            
+            let subtotal = 0;
+            container.innerHTML = '';
+
+            vaultData.forEach(item => {
+                subtotal += item.price;
+                container.innerHTML += `
+                    <div class="summary-item">
+                        <span style="font-style: italic; font-family: 'Cormorant Garamond'; font-size: 1.1rem;">${item.name}</span>
+                        <span>₦${item.price.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+
+            subtotalEl.innerText = `₦${subtotal.toLocaleString()}`;
+            totalEl.innerText = `₦${(subtotal + 5000).toLocaleString()}`;
+        }
+
+        function processPayment() {
+    // 1. Basic Validation
+    if(vaultData.length === 0) return alert("Your vault is empty.");
+    
+    const email = document.querySelector('input[type="email"]').value;
+    const firstName = document.querySelector('input[placeholder="Olumide"]').value;
+    
+    if(!email || !firstName) {
+        alert("Please provide your name and email for the receipt.");
+        return;
+    }
+
+    // 2. Calculate Amount in Kobo (Naira * 100)
+    let subtotal = vaultData.reduce((sum, item) => sum + item.price, 0);
+    let finalAmount = (subtotal + 5000) * 100; 
+
+    // 3. Initialize Paystack Popup
+    let handler = PaystackPop.setup({
+        key: 'pk_test_YOUR_PUBLIC_KEY_HERE', // Replace with your actual Paystack Public Key
+        email: email,
+        amount: finalAmount,
+        currency: "NGN",
+        ref: 'OLB-' + Math.floor((Math.random() * 1000000000) + 1), // Generates a random reference
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Customer Name",
+                    variable_name: "customer_name",
+                    value: firstName
+                }
+            ]
+        },
+       callback: function(response) {
+    // This sends the user to the thank you page with the payment ID
+    window.location.href = "thankyou.html?reference=" + response.reference;
+},
+        onClose: function() {
+            alert('Transaction cancelled. Your items are still saved in the vault.');
+        }
+    });
+
+    handler.openIframe();
+}
+
+        loadSummary();
+    </script>
+</body>
+</html>

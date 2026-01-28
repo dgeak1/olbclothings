@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLLECTIONS | OLB ATELIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #420a0a; --text: #ffffff; --gold: #af944d;
+            --accent: rgba(255,255,255,0.05); --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+
+        /* HEADER */
+        header { 
+            position: fixed; top: 0; width: 100%; z-index: 2000; 
+            padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; 
+            backdrop-filter: blur(15px); border-bottom: 1px solid var(--accent); 
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; letter-spacing: 10px; text-transform: uppercase; text-decoration: none; color: var(--text); }
+        .nav-link { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: var(--text); opacity: 0.6; }
+
+        /* SHOP LAYOUT */
+        .container { padding: 140px 6% 100px; }
+        .shop-header { margin-bottom: 80px; }
+        .shop-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-style: italic; font-weight: 300; }
+        
+        /* 3-COLUMN GRID FOR 20 ITEMS */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px 30px;
+        }
+
+        .product-card { position: relative; cursor: pointer; }
+        .image-wrap { 
+            width: 100%; aspect-ratio: 3/4; overflow: hidden; background: #0a0a0a; 
+            position: relative; margin-bottom: 20px;
+        }
+        .image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); filter: grayscale(0.2); }
+        .product-card:hover img { transform: scale(1.03); filter: grayscale(0); }
+
+        /* ADD TO VAULT BUTTON */
+        .quick-add {
+            position: absolute; bottom: 0; width: 100%; background: var(--text);
+            color: var(--bg); text-align: center; padding: 15px; font-size: 9px;
+            font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            transform: translateY(100%); transition: var(--transition);
+        }
+        .product-card:hover .quick-add { transform: translateY(0); }
+
+        .info { display: flex; justify-content: space-between; align-items: baseline; }
+        .info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; }
+        .info .price { font-size: 12px; color: var(--gold); font-weight: 600; }
+        .category { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.4; margin-top: 5px; display: block; }
+
+        /* CART COUNTER */
+        .cart-float {
+            position: fixed; bottom: 40px; right: 40px; background: var(--gold);
+            width: 50px; height: 50px; border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; cursor: pointer; z-index: 1000;
+        }
+        #cart-num { background: white; color: black; position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; border-radius: 50%; font-size: 9px; display: flex; justify-content: center; align-items: center; font-weight: 900; }
+
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .product-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="nav-link">Back</a>
+    <a href="index.html" class="logo">OLB</a>
+    <a href="securecheckout.html" class="nav-link">Vault</a>
+</header>
+
+<div class="container">
+    <div class="shop-header">
+        <span style="font-size: 9px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase;">Ready to Wear</span>
+        <h1>The Collection</h1>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card" onclick="addToVault('Signature Agbada', 550000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1594932224826-bb48c2771332?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Signature Agbada</h3>
+                <span class="price">₦550,000</span>
+            </div>
+            <span class="category">Aso-Oke Heritage</span>
+        </div>
+
+        <div class="product-card" onclick="addToVault('Indigo Adire Shirt', 85000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1598462047020-52725002427b?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Indigo Adire Shirt</h3>
+                <span class="price">₦85,000</span>
+            </div>
+            <span class="category">Hand-Dyed Cotton</span>
+        </div>
+
+        <div class="product-card" onclick="addToVault('The Ibadan Kaftan', 120000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>The Ibadan Kaftan</h3>
+                <span class="price">₦120,000</span>
+            </div>
+            <span class="category">Minimalist Structural</span>
+        </div>
+
+        <div class="product-card" onclick="addToVault('Monochrome Ofi Set', 185000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1594932224826-bb48c2771332?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Monochrome Ofi Set</h3>
+                <span class="price">₦185,000</span>
+            </div>
+            <span class="category">Ceremonial Wear</span>
+        </div>
+
+        <div class="product-card" onclick="addToVault('Silk Aso-Oke Cap', 35000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1558603668-6570496b66f8?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Silk Aso-Oke Cap</h3>
+                <span class="price">₦35,000</span>
+            </div>
+            <span class="category">Accessories</span>
+        </div>
+
+        <div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div>
+        <div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div><div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div>
+        <div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div>
+        <div class="product-card" onclick="addToVault('Vanguard Tunic', 95000)">
+            <div class="image-wrap">
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Artifact">
+                <div class="quick-add">Add to Vault</div>
+            </div>
+            <div class="info">
+                <h3>Vanguard Tunic</h3>
+                <span class="price">₦95,000</span>
+            </div>
+            <span class="category">Modern Vanguard</span>
+        </div>
+
+        </div>
+</div>
+
+<footer>
+    
+</footer>
+
+<div class="cart-float" onclick="window.location.href='securecheckout.html'">
+    <span id="cart-num">0</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+</div>
+
+<script>
+    let vaultData = JSON.parse(localStorage.getItem('olb_vault')) || [];
+    function updateCart() { document.getElementById('cart-num').innerText = vaultData.length; }
+    
+    function addToVault(name, price) {
+        vaultData.push({ name, price });
+        localStorage.setItem('olb_vault', JSON.stringify(vaultData));
+        updateCart();
+        
+    }
+    updateCart();
+</script>
+
+</body>
+</html>

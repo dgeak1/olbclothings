@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRATITUDE | OLB ATELIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #460b0b; --gold: #af944d; --accent: rgba(255,255,255,0.05); }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; margin: 0; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 40px; display: block; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-style: italic; font-weight: 300; margin-bottom: 10px; }
+        .order-box { border: 1px solid var(--accent); padding: 40px; margin-top: 30px; }
+        .ref-text { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .ref-id { font-family: 'Courier New', monospace; font-size: 1.2rem; opacity: 0.8; }
+        .actions { margin-top: 40px; display: flex; gap: 30px; justify-content: center; }
+        a { color: #fff; text-decoration: none; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; border-bottom: 1px solid var(--gold); padding-bottom: 5px; transition: 0.3s; }
+        a:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div>
+        <span class="logo">OLB</span>
+        <h1>Thank You for Commissioning.</h1>
+        <p style="opacity:0.5; font-size: 12px;">Your artifact is being prepared in the Ibadan Workshop.</p>
+        
+        <div class="order-box">
+            <span class="ref-text">Order Reference</span>
+            <span class="ref-id" id="order-ref">GENERATING...</span>
+        </div>
+
+        <div class="actions">
+            <a href="index.html">Return Home</a>
+            <a href="ibadanshipping.html" id="track-link">Track Artifact</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Get the reference from the URL (Paystack appends ?trxref=... & reference=...)
+        const urlParams = new URLSearchParams(window.location.search);
+        const reference = urlParams.get('reference') || "OLB-" + Math.floor(Math.random() * 1000000);
+        
+        // 2. Display it
+        document.getElementById('order-ref').innerText = reference;
+        
+        // 3. Store it so the tracking page can find it automatically
+        localStorage.setItem('last_order_ref', reference);
+
+        // 4. Clear the vault
+        localStorage.removeItem('olb_vault');
+    </script>
+</body>
+</html>

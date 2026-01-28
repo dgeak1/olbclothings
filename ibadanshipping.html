@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIPPING & LOGISTICS | OLB ATELIER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #410808; 
+            --text: #ffffff; 
+            --gold: #af944d;
+            --accent: rgba(255,255,255,0.05); 
+            --transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.8;
+        }
+
+        header { 
+            padding: 40px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--accent);
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; letter-spacing: 10px; text-decoration: none; color: var(--text); text-transform: uppercase; }
+
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 6%;
+        }
+
+        .section-label { font-size: 10px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; display: block; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5rem); font-style: italic; font-weight: 300; margin-bottom: 60px; line-height: 1.1; }
+        
+        .info-block { margin-bottom: 80px; }
+        .info-block h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; margin-bottom: 20px; border-bottom: 1px solid var(--accent); padding-bottom: 15px; }
+        .info-block p { font-size: 14px; opacity: 0.7; margin-bottom: 20px; }
+
+        .shipping-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .grid-item h3 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+        .grid-item p { font-size: 13px; }
+
+        .cta-box {
+            background: #0a0a0a;
+            padding: 60px;
+            border: 1px solid var(--accent);
+            text-align: center;
+            margin-top: 100px;
+        }
+        .track-btn {
+            background: var(--text);
+            color: var(--bg);
+            padding: 20px 50px;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        .track-btn:hover { background: var(--gold); color: #fff; }
+
+        footer { padding: 80px 6%; text-align: center; border-top: 1px solid var(--accent); font-size: 10px; letter-spacing: 3px; opacity: 0.5; }
+
+        @media (max-width: 768px) {
+            .shipping-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">OLB</a>
+        <a href="index.html" style="font-size: 10px; color: var(--text); text-decoration: none; letter-spacing: 2px; opacity: 0.6;">[ BACK ]</a>
+    </header>
+
+    <main class="content-container">
+        <span class="section-label">Global Logistics</span>
+        <h1>From the Heart of <br>Ibadan to the World.</h1>
+
+        <div class="info-block">
+            <h2>The Atelier Timeline</h2>
+            <p>Every OLB piece is an artifact crafted with intention. Because we prioritize heritage techniques like hand-dyeing and manual looming, our fulfillment timeline reflects the "Slow Fashion" philosophy of our Ibadan workshop.</p>
+            
+            <div class="shipping-grid">
+                <div class="grid-item">
+                    <h3>Ready-to-Wear</h3>
+                    <p>Dispatch within 3-5 business days.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Bespoke Commissions</h3>
+                    <p>Dispatch within 4-8 weeks (subject to fabric complexity).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h2>Transit Estimations</h2>
+            <p>We partner with premium couriers to ensure your garment arrives in gallery condition.</p>
+            
+            <div class="shipping-grid">
+                <div class="grid-item">
+                    <h3>Nigeria (Internal)</h3>
+                    <p>Ibadan/Lagos: 1-2 Days<br>Other States: 3-5 Days</p>
+                </div>
+                <div class="grid-item">
+                    <h3>International</h3>
+                    <p>UK/Europe: 5-7 Days<br>Rest of World: 7-10 Days</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h2>Customs & Duties</h2>
+            <p>For international artifacts, please note that the recipient is responsible for any local customs duties or import taxes. Our team provides all necessary heritage documentation to ensure a smooth transition through borders.</p>
+        </div>
+
+       <div class="cta-box">
+    <span class="section-label" style="margin-bottom: 10px;">Logistics Portal</span>
+    <h2 style="border:none; margin-bottom:30px;">Track Your Shipment</h2>
+    
+    <div style="margin-bottom: 30px;">
+        <input type="text" id="tracking-input" placeholder="ENTER REFERENCE (E.G. OLB-123456)" 
+               style="background: transparent; border: 1px solid var(--accent); padding: 15px; color: white; width: 300px; text-align: center; font-family: 'Courier New';">
+    </div>
+
+    <button onclick="trackOrder()" class="track-btn" style="border:none; cursor:pointer;">Locate Artifact</button>
+    
+    <div id="tracking-result" style="margin-top: 40px; display: none; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
+        <div style="border-left: 2px solid var(--gold); padding-left: 20px;">
+            <p id="status-update" style="font-size: 12px; font-weight: 600; color: var(--gold);"></p>
+            <p id="status-desc" style="font-size: 11px; opacity: 0.6;"></p>
+        </div>
+    </div>
+</div>
+    </main>
+
+    <footer>
+        <p>© 2024 OLB ATELIER — IBADAN HERITAGE LOGISTICS</p>
+    </footer>
+<script>
+    // Automatically fill the input if they just came from the Thank You page
+    window.onload = function() {
+        const savedRef = localStorage.getItem('last_order_ref');
+        if(savedRef) {
+            document.getElementById('tracking-input').value = savedRef;
+        }
+    }
+
+ function trackOrder() {
+    const ref = document.getElementById('tracking-input').value.trim();
+    const resultDiv = document.getElementById('tracking-result');
+    const statusUpdate = document.getElementById('status-update');
+
+    resultDiv.style.display = "block";
+
+    // Hardcode a specific status for a specific customer reference
+    if(ref === "OLB-SPECIAL-77") { 
+        statusUpdate.innerText = "STATUS: SHIPPED VIA DHL";
+        document.getElementById('status-desc').innerText = "Your Agbada has left the Ibadan Atelier and is currently at the Lagos Hub. Tracking: DHL-992031";
+    } else {
+        // Default message for everyone else
+        statusUpdate.innerText = "STATUS: ATELIER PREPARATION";
+        document.getElementById('status-desc').innerText = "Our master tailors are currently hand-cutting your textiles.";
+    }
+}
+</script>
+</body>
+</html>

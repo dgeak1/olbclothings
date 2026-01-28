@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE GALLERY | OLB CLOTHINGS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #3d0909; /* Dark Mahogany */
+            --text: #ffffff; 
+            --gold: #af944d;
+            --accent: rgba(255,255,255,0.05); 
+            --transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 2000;
+            padding: 25px 6%; display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--accent);
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; letter-spacing: 12px; font-weight: 300; text-transform: uppercase; text-decoration: none; color: var(--text); }
+        .nav-link { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--text); cursor: pointer; opacity: 0.7; }
+
+        /* GALLERY HERO */
+        .gallery-header { padding: 180px 6% 60px; text-align: center; border-bottom: 1px solid var(--accent); }
+        .gallery-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 5rem); font-style: italic; font-weight: 300; margin-bottom: 10px; }
+        .gallery-header p { font-size: 10px; letter-spacing: 5px; opacity: 0.5; text-transform: uppercase; }
+
+        /* COLLECTION SECTIONS */
+        .collection-section { padding: 80px 6%; }
+        .collection-title { font-size: 10px; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; margin-bottom: 40px; border-left: 2px solid var(--gold); padding-left: 15px; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        
+        .product-card { position: relative; transition: var(--transition); }
+        
+        /* FIXED VISUAL CONTAINER */
+        .visual { 
+            width: 100%; 
+            height: 70vh; 
+            background: var(--accent); 
+            overflow: hidden; /* CRITICAL: Hides the button when it's shifted down */
+            position: relative; 
+        }
+        
+        .visual img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 1.2s; }
+        .product-card:hover .visual img { filter: grayscale(0); transform: scale(1.05); }
+
+        /* REFINED POP-UP BUTTON */
+        .add-to-vault {
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            padding: 22px;
+            background: var(--text); 
+            color: #000; 
+            border: none; 
+            font-weight: 900;
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            font-size: 10px;
+            cursor: pointer;
+            /* Animation Logic */
+            transform: translateY(100%); 
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .product-card:hover .add-to-vault { 
+            transform: translateY(0); 
+        }
+
+        .meta { padding: 20px 0; display: flex; justify-content: space-between; align-items: baseline; }
+        .p-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; }
+        .p-price { font-size: 12px; color: var(--gold); font-weight: 600; }
+
+        /* VAULT DRAWER */
+        #vault.open { right: 0; }
+        .vault-item { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid var(--accent); padding-bottom: 15px; }
+
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { 
+            .product-grid { grid-template-columns: 1fr; } 
+            .visual { height: 60vh; }
+            #vault { width: 100%; }
+            .add-to-vault { transform: translateY(0); opacity: 0.9; }
+        }
+        /* Optimized Vault Drawer */
+#vault { 
+    position: fixed; 
+    right: -100%; 
+    top: 0; 
+    width: 400px; 
+    height: 100%; 
+    background: #1a0303; /* Deepened for contrast */
+    z-index: 4000; 
+    transition: var(--transition); 
+    padding: 60px 40px; /* Reduced top padding */
+    border-left: 1px solid var(--accent); 
+    display: flex; 
+    flex-direction: column; /* This allows the footer to stick to bottom */
+}
+
+/* New Footer Wrapper */
+.vault-footer {
+    margin-top: auto; /* Pushes the entire footer to the bottom */
+    padding: 30px 0;
+    border-top: 1px solid var(--gold);
+    background: #1a0303;
+}
+
+.checkout-btn {
+    width: 100%; 
+    padding: 22px; 
+    background: var(--gold); 
+    color: white; 
+    border: none; 
+    font-weight: 900; 
+    letter-spacing: 4px; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-btn:hover {
+    background: #fff;
+    color: #000;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+    <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+    </div>
+    <a href="index.html" class="logo">OLB</a>
+    <div class="controls" style="display: flex; align-items: center; gap: 20px;">
+        <a href="javascript:void(0)" class="nav-link" id="vault-count" onclick="toggleVault()" style="display: flex; align-items: center; gap: 8px;">
+            CART <span style="background: var(--gold); color: #fff; padding: 2px 6px; border-radius: 2px; font-weight: 900;">(0)</span>
+        </a>
+    </div>
+</header>
+
+    <div id="vault">
+    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <span onclick="toggleVault()" style="cursor:pointer; font-size: 10px; letter-spacing: 2px; opacity: 0.6;">[ CLOSE ]</span>
+        <span style="color:var(--gold); font-size: 10px; letter-spacing: 3px; font-weight: 900;">YOUR VAULT</span>
+    </div>
+    
+    <div id="vault-items" style="flex-grow: 1; overflow-y: auto; margin-bottom: 20px;"></div>
+
+    <div class="vault-footer">
+        <div style="display: flex; justify-content: space-between; font-weight: 900; margin-bottom: 25px; letter-spacing: 2px;">
+            <span style="font-size: 10px; opacity: 0.7;">ESTIMATED TOTAL</span>
+            <span id="vault-total" style="color: var(--gold);">₦0</span>
+        </div>
+        <button class="checkout-btn" onclick="initiateCheckout()">PROCEED TO CHECKOUT</button>
+        <p style="font-size: 8px; text-align: center; margin-top: 15px; opacity: 0.4; letter-spacing: 1px;">TAXES & SHIPPING CALCULATED AT CHECKOUT</p>
+    </div>
+</div>
+    <section class="gallery-header">
+        <h1>The Digital Atelier</h1>
+        <p>Curated Silhouettes & New Releases</p>
+    </section>
+
+    <section class="collection-section">
+        <h2 class="collection-title">New Arrivals / Harmattan '24</h2>
+        <div class="product-grid">
+            <div class="product-card" data-id="n1" data-name="Indigo Dye Bomber" data-price="185000">
+                <div class="visual">
+                    <img src="https://images.unsplash.com/photo-1598462047020-52725002427b?q=80&w=1200">
+                    <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+                </div>
+                <div class="meta"><span class="p-name">Indigo Dye Bomber</span><span class="p-price">₦185,000</span></div>
+            </div>
+            <div class="product-card" data-id="n2" data-name="Onyx Urban Agbada" data-price="240000">
+                <div class="visual">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
+                    <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+                </div>
+                <div class="meta"><span class="p-name">Onyx Urban Agbada</span><span class="p-price">₦240,000</span></div>
+            </div>
+            <div class="product-card" data-id="n3" data-name="Heritage Vest" data-price="95000">
+                <div class="visual">
+                    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200">
+                    <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+                </div>
+                <div class="meta"><span class="p-name">Heritage Vest</span><span class="p-price">₦95,000</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="collection-section" style="background: rgba(0,0,0,0.1);">
+        <h2 class="collection-title">Available Silhouettes</h2>
+        <div class="product-grid">
+            <div class="product-card" data-id="a1" data-name="Silk Yoruba Tunic" data-price="120000">
+                <div class="visual">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200">
+                    <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+                </div>
+                <div class="meta"><span class="p-name">Silk Yoruba Tunic</span><span class="p-price">₦120,000</span></div>
+            </div>
+            <div class="product-card" data-id="a2" data-name="Oyo Street Joggers" data-price="65000">
+                <div class="visual">
+                    <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+                    <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+                </div>
+                <div class="meta"><span class="p-name">Oyo Street Joggers</span><span class="p-price">₦65,000</span></div>
+            </div>
+        </div>
+    </section>
+    <section class="collection-section">
+    <h2 class="collection-title">Heritage Series / Hand-Woven</h2>
+    <div class="product-grid">
+        <div class="product-card" data-id="h1" data-name="Aso-Oke Utility Jacket" data-price="310000">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Aso-Oke Utility Jacket</span><span class="p-price">₦310,000</span></div>
+        </div>
+        <div class="product-card" style="margin-top: 100px;" data-id="h2" data-name="Frayed Hem Tunic" data-price="145000">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Frayed Hem Tunic</span><span class="p-price">₦145,000</span></div>
+        </div>
+    </div>
+</section>
+<section class="collection-section" style="background: rgba(0,0,0,0.1);">
+    <h2 class="collection-title">The Foundation / Minimalist</h2>
+    <div class="product-grid">
+        <div class="product-card" data-id="b1" data-name="Raw Cotton Tee" data-price="35000">
+            <div class="visual" style="height: 50vh;">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Raw Cotton Tee</span><span class="p-price">₦35,000</span></div>
+        </div>
+        <div class="product-card" data-id="b2" data-name="Linen Lounge Pants" data-price="75000">
+            <div class="visual" style="height: 50vh;">
+                <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Linen Lounge Pants</span><span class="p-price">₦75,000</span></div>
+        </div>
+        <div class="product-card" data-id="b3" data-name="Structured Vest" data-price="90000">
+            <div class="visual" style="height: 50vh;">
+                <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Structured Vest</span><span class="p-price">₦90,000</span></div>
+        </div>
+    </div>
+</section>
+<section class="collection-section">
+    <h2 class="collection-title">Artifacts / Accessories</h2>
+    <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="product-card" data-id="acc-1" data-name="Hand-Tooled Belt" data-price="45000">
+            <div class="visual" style="height: 35vh;">
+                <img src="https://images.unsplash.com/photo-1624222247344-550fb8ec973d?q=80&w=800">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Leather Belt</span><span class="p-price">₦45,000</span></div>
+        </div>
+        <div class="product-card" data-id="acc-2" data-name="Indigo Scarf" data-price="25000">
+            <div class="visual" style="height: 35vh;">
+                <img src="https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?q=80&w=800">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="p-name">Indigo Scarf</span><span class="p-price">₦25,000</span></div>
+        </div>
+    </div>
+</section>
+<section class="collection-section" style="padding: 0;">
+    <div class="product-card" data-id="ex-1" data-name="Royal Embroidery Agbada" data-price="550000">
+        <div class="visual" style="height: 100vh;">
+            <img src="https://images.unsplash.com/photo-1560362614-89027598847b?q=80&w=2000">
+            <div style="position:absolute; top: 10%; left: 6%; z-index: 5;">
+                <span style="letter-spacing: 5px; font-size: 10px; color: var(--gold);">ATELIER EXCLUSIVE</span>
+                <h2 style="font-family: 'Cormorant Garamond'; font-size: 4rem; font-style: italic;">The Royal Sovereign</h2>
+            </div>
+            <button class="add-to-vault" onclick="addToVault(this)">Add to Vault — ₦550,000</button>
+        </div>
+    </div>
+</section>
+<section class="collection-section">
+    <h2 class="collection-title">The Archive / Sold Out</h2>
+    <div class="product-grid" style="opacity: 0.4; pointer-events: none;">
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        <div class="product-card">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1200">
+            </div>
+            <div class="meta"><span class="p-name">2023 Nomad Coat</span><span class="p-price">[ ARCHIVED ]</span></div>
+        </div>
+        
+        
+        
+    </div>
+    
+</section>
+
+    <script>
+        let vaultData = JSON.parse(localStorage.getItem('olb_vault')) || [];
+
+        function toggleVault() { document.getElementById('vault').classList.toggle('open'); }
+
+        function addToVault(button) {
+            const card = button.closest('.product-card');
+            const product = {
+                id: card.dataset.id,
+                name: card.dataset.name,
+                price: parseInt(card.dataset.price)
+            };
+            vaultData.push(product);
+            saveAndUpdate();
+            document.getElementById('vault').classList.add('open');
+        }
+
+        function saveAndUpdate() {
+            localStorage.setItem('olb_vault', JSON.stringify(vaultData));
+            updateVaultUI();
+        }
+
+        function updateVaultUI() {
+            const container = document.getElementById('vault-items');
+            const totalElement = document.getElementById('vault-total');
+            const counter = document.getElementById('vault-count');
+            
+            container.innerHTML = '';
+            let total = 0;
+
+            if(vaultData.length === 0) {
+                container.innerHTML = '<p style="font-size:10px; opacity:0.3; margin-top:20px; letter-spacing:2px; text-align:center;">VAULT IS EMPTY</p>';
+            }
+
+            vaultData.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="vault-item">
+                        <div>
+                            <p style="font-size: 11px; font-weight: 600; letter-spacing:1px;">${item.name}</p>
+                            <span style="font-size: 8px; opacity: 0.5; cursor:pointer; text-decoration:underline;" onclick="removeItem(${index})">REMOVE</span>
+                        </div>
+                        <div style="color:var(--gold); font-weight:600; font-size:12px;">₦${item.price.toLocaleString()}</div>
+                    </div>
+                `;
+            });
+
+            totalElement.innerText = `₦${total.toLocaleString()}`;
+            counter.innerText = `Vault (${vaultData.length})`;
+        }
+
+        function removeItem(index) {
+            vaultData.splice(index, 1);
+            saveAndUpdate();
+        }
+
+        function initiateCheckout() {
+            if(vaultData.length === 0) return alert("Vault is empty");
+            const total = vaultData.reduce((a, b) => a + b.price, 0);
+            alert(`Redirecting to Paystack for ₦${total.toLocaleString()}`);
+        }
+
+        updateVaultUI();
+    </script>
+</body>
+</html>
