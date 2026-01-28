@@ -4,557 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OLB CLOTHINGS | Ibadan Atelier</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Poppins:wght@300;400;600;700&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,500;1,600&family=Poppins:wght@300;400;600;700&family=Inter:wght@100;300;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg: #3b1707; --text: #ffffff; --gold: #af944d;
             --accent: rgba(255,255,255,0.05); --transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        body.light-mode { --bg: #f9f9f7; --text: #1a1a1a; --accent: rgba(0,0,0,0.08); }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: background 0.5s ease; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; }
+
+        /* HEADER & NAVIGATION */
         header { position: fixed; top: 0; width: 100%; z-index: 2000; padding: 25px 6%; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); border-bottom: 1px solid var(--accent); }
         .nav-links { display: flex; gap: 30px; }
         .nav-link { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--text); cursor: pointer; opacity: 0.7; transition: var(--transition); }
         .logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; letter-spacing: 12px; font-weight: 300; text-transform: uppercase; }
-        .theme-toggle { width: 40px; height: 20px; border: 1px solid var(--gold); border-radius: 20px; position: relative; cursor: pointer; }
-        .toggle-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: absolute; top: 3px; left: 4px; transition: 0.4s; }
-        body.light-mode .toggle-dot { left: 22px; }
-        .search-drawer { position: fixed; top: -100%; left: 0; width: 100%; height: 50vh; background: var(--bg); z-index: 3000; transition: var(--transition); display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid var(--gold); }
-        .search-drawer.active { top: 0; }
+
+        /* HERO SECTION */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
         .hero span { color: var(--gold); letter-spacing: 8px; font-size: 10px; margin-bottom: 20px; text-transform: uppercase; }
-        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 10vw, 8rem); font-style: italic; font-weight: 300; line-height: 0.8; }
-        .section-label { padding: 100px 6% 0; font-size: 10px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; }
-        .gallery { padding: 50px 6% 150px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 80px; }
-        .artifact-card { position: relative; }
-        .visual { width: 100%; height: 80vh; background: var(--accent); overflow: hidden; position: relative; }
-        .visual img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; filter: grayscale(1); }
-        .artifact-card:hover .visual img { transform: scale(1.05); filter: grayscale(0); }
-        .meta { padding: 25px 0; display: flex; justify-content: space-between; align-items: center; }
-        .name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; }
-        .price { font-size: 12px; font-weight: 600; color: var(--gold); }
-        
-        /* VAULT (BAG) - ONLY ONE INSTANCE ALLOWED */
-        #vault { position: fixed; right: -100%; top: 0; width: 400px; height: 100%; background: var(--bg); z-index: 4000; transition: var(--transition); padding: 100px 40px; border-left: 1px solid var(--accent); display: flex; flex-direction: column; }
-        #vault.open { right: 0; }
-        .vault-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .gold-text { color: var(--gold); font-size: 10px; letter-spacing: 3px; font-weight: 900; }
-        
-        footer { padding: 100px 6%; background: var(--bg); border-top: 1px solid var(--accent); display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
-        .mobile-nav { position: fixed; bottom: 0; width: 100%; background: var(--bg); z-index: 5000; display: none; justify-content: space-around; padding: 20px; border-top: 1px solid var(--gold); backdrop-filter: blur(10px); }
-        @media (max-width: 768px) { .nav-links, .desktop-only { display: none; } .mobile-nav { display: flex; } .gallery { grid-template-columns: 1fr; gap: 40px; } header { padding: 20px 5%; } .logo { font-size: 1.5rem; letter-spacing: 6px; } .visual { height: 60vh; } #vault { width: 100%; } }
-/* Update these styles in your <style> section */
+        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 10vw, 8rem); font-style: italic; font-weight: 300; line-height: 0.9; }
 
-.product-visual {
-    width: 100%;
-    height: 75vh;
-    background: var(--accent);
-    overflow: hidden; /* This is critical to hide the button when it's below the image */
-    position: relative;
-}
-
-.add-to-vault {
-    position: absolute;
-    bottom: 0; /* Align to bottom */
-    left: 0;
-    width: 100%;
-    padding: 22px;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 10px;
-    cursor: pointer;
-    
-    /* Animation Logic */
-    transform: translateY(100%); /* Move the button completely below the visual area */
-    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); /* High-end smooth transition */
-    z-index: 10;
-}
-
-/* On hover, slide the button up into view */
-.product-card:hover .add-to-vault {
-    transform: translateY(0);
-}
-
-/* Mobile fix: Ensure the button is always visible or easily accessible on touch */
-@media (max-width: 768px) {
-    .add-to-vault {
-        transform: translateY(0); /* Always show on mobile */
-        opacity: 0.9;
-    }
-}
-        /* PULSE & COLLECTION STYLES */
-        .atelier-pulse { background: var(--gold); color: var(--bg); font-size: 8px; letter-spacing: 3px; text-align: center; padding: 8px 0; font-weight: 700; text-transform: uppercase; position: relative; z-index: 2001; }
+        /* ATELIER PULSE */
+        .atelier-pulse { background: var(--gold); color: var(--bg); font-size: 8px; letter-spacing: 3px; text-align: center; padding: 8px 0; font-weight: 700; text-transform: uppercase; position: relative; z-index: 2001; margin-top: 80px; }
         .pulse-dot { height: 6px; width: 6px; background: #fff; border-radius: 50%; display: inline-block; margin-right: 10px; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .collection-grid { padding: 100px 6%; background: var(--bg); }
-        .products-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 40px; }
-        .product-visual { width: 100%; height: 75vh; background: var(--accent); overflow: hidden; position: relative; }
-        .product-visual img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
-        .product-card:hover img { filter: grayscale(0); transform: scale(1.03); }
-        .add-to-vault { position: absolute; bottom: -50px; left: 0; width: 100%; padding: 20px; background: var(--text); color: var(--bg); border: none; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; font-size: 10px; transition: 0.4s ease; cursor: pointer; }
-        .product-card:hover .add-to-vault { bottom: 0; }
-        .product-meta { padding: 20px 0; display: flex; justify-content: space-between; align-items: baseline; }
-        .p-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-style: italic; }
-        .p-price { font-size: 12px; color: var(--gold); font-weight: 600; }
-        #vault-items { margin-top: 40px; flex-grow: 1; overflow-y: auto; }
+
+        /* GALLERY & ARTIFACTS */
+        .section-label { padding: 100px 6% 20px; font-size: 10px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; text-align: center; }
+        .gallery { padding: 50px 6% 100px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 80px; }
+        .artifact-card { position: relative; }
+        .visual { width: 100%; height: 75vh; background: var(--accent); overflow: hidden; position: relative; }
+        .visual img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; filter: grayscale(1); }
+        .artifact-card:hover .visual img { transform: scale(1.05); filter: grayscale(0); }
+        
+        .add-to-vault { 
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 22px; 
+            background: var(--text); color: var(--bg); border: none; font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 3px; font-size: 10px; cursor: pointer;
+            transform: translateY(100%); transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 10;
+        }
+        .artifact-card:hover .add-to-vault { transform: translateY(0); }
+
+        .meta { padding: 25px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--accent); }
+        .name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; }
+        .price { font-size: 12px; font-weight: 600; color: var(--gold); }
+
+        /* VAULT (SIDEBAR) */
+        #vault { position: fixed; right: -100%; top: 0; width: 400px; height: 100%; background: var(--bg); z-index: 4000; transition: var(--transition); padding: 100px 40px; border-left: 1px solid var(--accent); display: flex; flex-direction: column; }
+        #vault.open { right: 0; }
         .vault-item { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid var(--accent); padding-bottom: 15px; }
-        .vault-footer { margin-top: auto; padding-top: 30px; border-top: 1px solid var(--gold); }
-        .total-row { display: flex; justify-content: space-between; font-weight: 900; margin-bottom: 20px; letter-spacing: 2px; }
         .checkout-btn { width: 100%; padding: 20px; background: var(--gold); color: white; border: none; font-weight: 900; letter-spacing: 3px; cursor: pointer; }
 
-        /* FABRIC & BESPOKE */
-        .fabric-archive { padding: 150px 6%; background: var(--bg); }
-        .archive-intro h2 { font-family: 'Cormorant Garamond', serif; font-size: 4.5rem; font-style: italic; }
-        .fabric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .fabric-item { position: relative; height: 70vh; overflow: hidden; }
-        
-        .bespoke-atelier {
-    background: var(--bg);
-    color: var(--text);
-    padding: 120px 6%;
-    text-align: center;
-    border-top: 1px solid var(--accent);
-    border-bottom: 1px solid var(--accent);
-    /* Apply Poppins here */
-    font-family: 'Poppins', sans-serif; 
-}
+        /* BESPOKE SECTION */
+        .bespoke-atelier { background: #3b1707; color: #fff; padding: 120px 6%; text-align: center; border: 1px solid #fff; margin: 80px 6%; border-radius: 20px; font-family: 'Poppins', sans-serif; }
+        .bespoke-btn { background: transparent; color: #fff; border: 1px solid #fff; padding: 20px 60px; font-size: 11px; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: 0.5s; margin-top: 30px; }
+        .bespoke-btn:hover { background: #fff; color: #3b1707; }
 
-.bespoke-atelier h2 {
-    /* Headings stay in the signature Cormorant style */
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 300;
-    font-style: italic;
-    text-transform: uppercase;
-    line-height: 0.9;
-    margin-bottom: 30px;
-}
+        /* WHOLESALE SECTION */
+        #wholesale { padding: 120px 6%; background: #080808; border-top: 1px solid var(--accent); }
+        .wholesale-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .w-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px 0; outline: none; font-size: 12px; margin-bottom: 20px; }
 
-.bespoke-atelier p {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 11px;
-    opacity: 0.8;
-}
+        /* FOOTER */
+        footer { padding: 100px 6% 150px; background: var(--bg); border-top: 1px solid var(--accent); display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
 
-.bespoke-btn {
-    font-family: 'Poppins', sans-serif;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--text);
-    padding: 20px 60px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 0.5s;
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-}
-        .bespoke-btn:hover { background: var(--text); color: var(--bg); }
-    /* SEARCH DRAWER OVERLAY */
-.search-drawer {
-    position: fixed;
-    top: -100%; /* Hidden above the screen */
-    left: 0;
-    width: 100%;
-    height: 50vh;
-    background: var(--bg);
-    z-index: 3000;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 1px solid var(--gold);
-    backdrop-filter: blur(30px);
-}
-
-/* When the "active" class is added via JS */
-.search-drawer.active {
-    top: 0;
-}
-
-.search-container {
-    width: 80%;
-    max-width: 800px;
-    text-align: center;
-}
-
-.search-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--gold);
-    color: var(--text);
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    outline: none;
-    padding: 20px;
-    text-align: center;
-}
-
-.search-input::placeholder {
-    color: var(--gold);
-    opacity: 0.3;
-}
-
-.close-search {
-    margin-top: 40px;
-    font-size: 10px;
-    letter-spacing: 5px;
-    cursor: pointer;
-    color: var(--gold);
-    text-transform: uppercase;
-    font-weight: 700;
-    transition: opacity 0.3s ease;
-}
-
-.close-search:hover {
-    opacity: 0.6;
-}
-
-/* Mobile Adjustments for Search */
-@media (max-width: 768px) {
-    .search-drawer {
-        height: 100vh; /* Full screen on mobile */
-    }
-    .search-input {
-        font-size: 2rem;
-    }
-}
-footer {
-        padding: 120px 6% 150px; /* Extra bottom padding for mobile nav clearance */
-        background: var(--bg);
-        border-top: 1px solid var(--accent);
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 80px;
-    }
-
-    .footer-logo {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 2.5rem;
-        letter-spacing: 12px;
-        margin-bottom: 30px;
-        font-weight: 300;
-    }
-
-    .f-tagline {
-        font-size: 11px;
-        opacity: 0.5;
-        line-height: 2;
-        max-width: 320px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-
-    .f-links h4 {
-        font-size: 10px;
-        letter-spacing: 4px;
-        margin-bottom: 30px;
-        color: var(--gold);
-        font-weight: 700;
-    }
-
-    .f-links a {
-        display: block;
-        color: var(--text);
-        text-decoration: none;
-        font-size: 10px;
-        letter-spacing: 2px;
-        margin-bottom: 18px;
-        opacity: 0.6;
-        transition: var(--transition);
-        text-transform: uppercase;
-    }
-
-    .f-links a:hover {
-        opacity: 1;
-        color: var(--gold);
-        padding-left: 5px;
-    }
-
-    .badge-row {
-        grid-column: 1 / -1;
-        border-top: 1px solid var(--accent);
-        margin-top: 50px;
-        padding-top: 50px;
-        text-align: center;
-        font-size: 9px;
-        opacity: 0.4;
-        letter-spacing: 5px;
-        font-weight: 700;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .dot { color: var(--gold); }
-
-    /* MOBILE FOOTER ADJUSTMENTS */
-    @media (max-width: 768px) {
-        footer {
-            grid-template-columns: 1fr;
-            gap: 50px;
-            padding: 80px 10% 180px; /* Keep bottom clear for mobile nav */
-            text-align: center;
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .nav-links, .desktop-only { display: none; }
+            .gallery { grid-template-columns: 1fr; gap: 50px; }
+            .visual { height: 60vh; }
+            #vault { width: 100%; }
+            .wholesale-grid { grid-template-columns: 1fr; }
+            .bespoke-atelier { margin: 40px 0; border-radius: 0; }
+            footer { grid-template-columns: 1fr; text-align: center; }
+            .mobile-nav { position: fixed; bottom: 0; width: 100%; background: var(--bg); z-index: 5000; display: flex; justify-content: space-around; padding: 20px; border-top: 1px solid var(--gold); backdrop-filter: blur(10px); }
+            .add-to-vault { transform: translateY(0); background: var(--gold); color: #fff; opacity: 0.9; }
         }
-
-        .f-tagline { margin: 0 auto; }
-
-        .badge-row {
-            flex-direction: column;
-            gap: 15px;
-            letter-spacing: 3px;
-        }
-        
-        .dot { display: none; }
-    }
-    /* --- GALLERY ATELIER STYLING --- */
-
-/* 1. THE LAYOUT ENGINE */
-.collection-section {
-    padding: 100px 6%;
-    background: var(--bg);
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2-column grid feels more premium than 3 or 4 */
-    gap: 120px 80px; /* Large vertical gaps for breathing room */
-}
-
-/* 2. THE ARTIFACT CARDS */
-.product-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Staggered Effect: Every second card is pushed down */
-.product-card:nth-child(even) {
-    margin-top: 150px;
-}
-
-.visual {
-    width: 100%;
-    height: 85vh; /* Extreme verticality */
-    background: var(--accent);
-    overflow: hidden;
-    position: relative;
-    border: 1px solid transparent;
-    transition: var(--transition);
-}
-
-.visual img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1); /* Starts as a 'memory' or 'artifact' */
-    transition: 1.8s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.product-card:hover .visual img {
-    filter: grayscale(0); /* Reveals true color on interaction */
-    transform: scale(1.05);
-}
-
-/* 3. THE INTERACTIVE ADD BUTTON */
-.add-to-vault {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    padding: 18px 40px;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: var(--transition);
-    white-space: nowrap;
-}
-
-.product-card:hover .add-to-vault {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    pointer-events: auto;
-}
-
-/* 4. TYPOGRAPHY & META */
-.meta {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--accent);
-}
-
-.p-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-style: italic;
-    font-weight: 300;
-}
-
-.p-price {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 2px;
-}
-
-/* 5. COLLECTION HEADERS */
-.collection-title {
-    font-size: 11px;
-    letter-spacing: 8px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 60px;
-    text-align: center;
-    position: relative;
-}
-
-.collection-title::after {
-    content: "";
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-    margin: 20px auto 0;
-}
-
-/* 6. MOBILE RESPONSIVENESS */
-@media (max-width: 768px) {
-    .product-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
-    }
-    
-    .product-card:nth-child(even) {
-        margin-top: 0;
-    }
-    
-    .visual {
-        height: 65vh;
-    }
-    
-    .add-to-vault {
-        top: auto;
-        bottom: 20px;
-        transform: translateX(-50%);
-        opacity: 0.9;
-        pointer-events: auto;
-        width: 90%;
-        text-align: center;
-    }
-}
-/* Update these styles in your <style> section */
-
-.product-visual {
-    width: 100%;
-    height: 75vh;
-    background: var(--accent);
-    overflow: hidden; /* This is critical to hide the button when it's below the image */
-    position: relative;
-}
-
-.add-to-vault {
-    position: absolute;
-    bottom: 0; /* Align to bottom */
-    left: 0;
-    width: 100%;
-    padding: 22px;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 10px;
-    cursor: pointer;
-    
-    /* Animation Logic */
-    transform: translateY(100%); /* Move the button completely below the visual area */
-    transition: .9s; /* High-end smooth transition */
-    z-index: 10;
-}
-
-/* On hover, slide the button up into view */
-.product-card:hover .add-to-vault {
-    transform: translateY(0);
-}
-
-/* Mobile fix: Ensure the button is always visible or easily accessible on touch */
-@media (max-width: 768px) {
-    .add-to-vault {
-        transform: translateY(0); /* Always show on mobile */
-        opacity: 0.9;
-    }
-}
     </style>
 </head>
 <body>
 
-    <div class="search-drawer" id="search-drawer">
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Discovery...">
-            <div class="close-search" onclick="toggleSearch()">[ Close ]</div>
-        </div>
-    </div>
-
-    <div class="atelier-pulse">
-        <span class="pulse-dot"></span>
-        ATELIER STATUS: CURRENTLY CRAFTING 14 PRIVATE COMMISSIONS IN IBADAN
-    </div>
-
     <header>
         <div class="nav-links">
-            <a href="gallery.html" class="nav-link">Gallery</a>
-            <a href="shopnow.html" class="nav-link">Shop Now</a>
+            <a href="shopnow.html" class="nav-link">Collections</a>
+            <a href="#wholesale" class="nav-link">Wholesale</a>
         </div>
         <div class="logo">OLB</div>
-        <div class="controls" style="display:flex; align-items:center; gap:25px;">
-            <span class="nav-link desktop-only" onclick="toggleSearch()">Search</span>
-<span class="nav-link desktop-only" onclick="vaultData.length > 0 ? window.location.href='securecheckout.html' : alert('Your vault is empty')">Checkout</span>            <span class="nav-link" id="vault-count" onclick="toggleVault()"> Cart (0)</span>
+        <div class="controls">
+            <span class="nav-link" id="vault-count" onclick="toggleVault()">Vault (0)</span>
         </div>
     </header>
 
-    <div id="vault">
-        <div class="vault-header">
-            <span onclick="toggleVault()" style="cursor:pointer; font-size: 10px; letter-spacing: 2px;">[ CLOSE ]</span>
-            <span class="gold-text">YOUR CART</span>
-        </div>
-        
-        <div id="vault-items">
-            </div>
-
-        <div class="vault-footer">
-            <div class="total-row">
-                <span>TOTAL</span>
-                <span id="vault-total">₦0</span>
-            </div>
-            <button class="checkout-btn" onclick="initiateCheckout()">PROCEED TO CHECKOUT</button>
-            <p style="font-size: 8px; margin-top: 15px; opacity: 0.5; text-align: center; letter-spacing: 2px;">SECURE ₦ NAIRA PAYMENT VIA PAYSTACK</p>
-        </div>
+    <div class="atelier-pulse">
+        <span class="pulse-dot"></span>
+        ATELIER STATUS: CRAFTING IN IBADAN
     </div>
 
     <section class="hero">
@@ -562,401 +107,138 @@ footer {
         <h1>Ancient <br> Silhouettes</h1>
         <p style="margin-top: 30px; font-size: 10px; letter-spacing: 5px; opacity: 0.6;">WHERE CULTURE MEETS THE CURB</p>
     </section>
-<div class="section-label">Selected Artifacts</div>
-<section class="gallery">
-<div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-    <div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-    <div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-    <div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-    <div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-    
-    <div class="artifact-card" style="margin-top: 60px;" data-id="art-02" data-name="Onyx Caftan Set" data-price="145000">
-        <div class="visual">
-            <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
-            <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-        </div>
-        <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
-    </div>
-</section>
 
-
-
-    <div class="section-label">Heritage Archive</div>
-
+    <div class="section-label">Selected Artifacts</div>
     <section class="gallery">
-
-        <div class="artifact-card">
-
-            <div class="visual"><img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200"></div>
-
-            <div class="meta"><span class="name">Silk Yoruba Vest</span><span class="price">₦95,000</span></div>
-
+        <div class="artifact-card" data-name="Onyx Caftan Set" data-price="145000">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
+            <div class="meta"><span class="name">Onyx Caftan Set</span><span class="price">₦145,000</span></div>
         </div>
-
-        <div class="artifact-card" style="margin-top: 60px;">
-
-            <div class="visual"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200"></div>
-
+        <div class="artifact-card" data-name="Urban Agbada / 01" data-price="210000">
+            <div class="visual">
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200">
+                <button class="add-to-vault" onclick="addToVault(this)">Add to Vault</button>
+            </div>
             <div class="meta"><span class="name">Urban Agbada / 01</span><span class="price">₦210,000</span></div>
-
         </div>
-
     </section>
 
-    
+    <section class="bespoke-atelier">
+        <span style="font-size: 10px; letter-spacing: 5px;">COMMISSION ONLY</span>
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem; margin: 20px 0;">The Private Suite</h2>
+        <p>Direct consultation for unique heritage pieces.</p>
+        <button class="bespoke-btn" onclick="openWhatsApp()">Start Commission</button>
+    </section>
 
-<section class="bespoke-atelier" style="font-family: 'Poppins', sans-serif; text-transform: uppercase; word-spacing: 3px; padding: 30px 30px; margin: 50px; border-radius: 20px; background: #3b1707; border: 1px solid rgb(255, 255, 255);">
-
-    <div class="bespoke-container">
-
-        <span class="location-tag">Oyo State // Heritage Site</span>
-
-        <h2>Bespoke <br> Tailoring</h2>
-
-        <div class="divider"></div>
-
-        <p>Direct consultation with Olb Clothings.</p>
-
-        
-
-        <button class="bespoke-btn" onclick="openWhatsApp()">
-
-            <span class="btn-text">START COMMISSION</span>
-
-            <span class="btn-arrow">→</span>
-
-        </button>
-
-    </div>
-
-</section>
-
-    <section class="fabric-archive" id="soul">
-
-    <div class="archive-intro">
-
-        <span class="gold-text">THE RAW MATERIAL</span>
-
-        <h2>Woven in <br>History</h2>
-
-    </div>
-
-
-
-    <div class="fabric-grid">
-
-        <div class="fabric-item">
-
-            <div class="fabric-visual">
-
-                <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200" alt="Ibadan Adire">
-
-                <div class="fabric-overlay">
-
-                    <h3>VINTAGE ADIRE</h3>
-
-                    <p>Hand-dyed in the heart of Itoku, finished in our Ibadan atelier.</p>
-
-                </div>
-
+    <section id="wholesale">
+        <div class="wholesale-grid">
+            <div>
+                <span style="color:var(--gold); font-size: 10px; letter-spacing: 3px;">RETAIL PARTNERS</span>
+                <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem; font-style: italic; margin: 20px 0;">Wholesale Inquiries</h2>
+                <p style="opacity:0.6; font-size: 14px; line-height: 1.8;">Partner with OLB to bring Ibadan craftsmanship to your global boutique.</p>
             </div>
-
-        </div>
-
-
-
-        <div class="fabric-item">
-
-            <div class="fabric-visual">
-
-                <img src="https://images.unsplash.com/photo-1582142306909-195724d33ffc?q=80&w=1000" alt="Aso-Oke Heritage">
-
-                <div class="fabric-overlay">
-
-                    <h3>OFI HERITAGE</h3>
-
-                    <p>The "King of Cloths." Traditional hand-loomed silk and cotton strips.</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-<section id="wholesale" style="padding: 150px 6%; background: #080808; border-top: 1px solid rgba(255,255,255,0.03);">
-    <div style="max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
-        
-        <div>
-            <span style="font-size: 10px; letter-spacing: 5px; color: #af944d; text-transform: uppercase; font-weight: 600;">Global Partnerships</span>
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-style: italic; font-weight: 300; margin: 30px 0; line-height: 1.1;">
-                Stock the Ibadan <br> Heritage in your Boutique.
-            </h2>
-            <p style="font-size: 14px; opacity: 0.6; line-height: 1.8; margin-bottom: 40px; max-width: 500px;">
-                We partner with select luxury retailers and galleries worldwide. Our atelier supports wholesale volumes without compromising our "Slow Fashion" philosophy.
-            </p>
-        </div>
-
-        <div id="form-container" style="background: #000; padding: 60px; border: 1px solid rgba(255,255,255,0.05); position: relative;">
-            <div id="wholesale-status" style="display:none; text-align: center; padding: 20px;">
-                <h3 style="font-family: 'Cormorant Garamond', serif; color: #af944d; font-size: 2rem;">Inquiry Received.</h3>
-                <p style="font-size: 10px; letter-spacing: 2px; margin-top: 10px;">OUR LOGISTICS TEAM WILL REACH OUT WITHIN 24 HOURS.</p>
-            </div>
-
-            <form id="wholesale-form">
-                <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; margin-bottom: 30px;">Wholesale Inquiry</h3>
-                
-                <div style="margin-bottom: 25px;">
-                    <label style="font-size: 8px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; display: block; margin-bottom: 10px;">Organization Name</label>
-                    <input type="text" id="w-biz" required placeholder="E.G. SELFRIDGES LONDON" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 0; outline: none; font-size: 12px;">
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <label style="font-size: 8px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; display: block; margin-bottom: 10px;">Contact Email</label>
-                    <input type="email" id="w-email" required placeholder="BUYER@BUSINESS.COM" style="width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 0; outline: none; font-size: 12px;">
-                </div>
-
-                <div style="margin-bottom: 40px;">
-                    <label style="font-size: 8px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; display: block; margin-bottom: 10px;">Projected Volume</label>
-                    <select id="w-vol" style="width: 100%; background: #000; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 0; outline: none; font-size: 12px;">
-                        <option value="10-50">10 - 50 PIECES / QUARTER</option>
-                        <option value="50-100">50 - 100 PIECES / QUARTER</option>
-                        <option value="100+">100+ PIECES (GLOBAL RETAIL)</option>
+            <div id="form-container" style="background:#000; padding: 40px; border: 1px solid var(--accent);">
+                <form id="wholesale-form">
+                    <input type="text" id="w-biz" class="w-input" placeholder="BUSINESS NAME" required>
+                    <input type="email" id="w-email" class="w-input" placeholder="EMAIL ADDRESS" required>
+                    <select id="w-vol" class="w-input" style="background:#000;">
+                        <option value="10-50">10-50 PIECES / QTR</option>
+                        <option value="50+">50+ PIECES / QTR</option>
                     </select>
-                </div>
-
-                <button type="submit" id="w-submit" style="width: 100%; background: #af944d; color: #fff; border: none; padding: 20px; font-size: 10px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s;">
-                    Request Line Sheet
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
-
-    <section class="collection-grid" id="archive">
-        <div class="section-label">Available Silhouettes</div>
-        <div class="products-container">
-            <div class="product-card" data-id="1" data-name="Heritage Indigo Bomber" data-price="185000">
-                <div class="product-visual">
-                    <img src="https://images.unsplash.com/photo-1598462047020-52725002427b?q=80&w=1200" alt="OLB Clothing">
-                    <button class="add-to-vault" onclick="addToVault(this)">Add to Cart </button>
-                </div>
-                <div class="product-meta">
-                    <span class="p-name">Heritage Indigo Bomber</span>
-                    <span class="p-price">₦185,000</span>
-                </div>
-            </div>
-
-            <div class="product-card" data-id="2" data-name="Onyx Urban Agbada" data-price="240000">
-                <div class="product-visual">
-                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200" alt="OLB Clothing">
-                    <button class="add-to-vault" onclick="addToVault(this)">Add to Cart</button>
-                </div>
-                <div class="product-meta">
-                    <span class="p-name">Onyx Urban Agbada</span>
-                    <span class="p-price">₦240,000</span>
+                    <button type="submit" id="w-submit" class="checkout-btn">Submit Inquiry</button>
+                </form>
+                <div id="wholesale-status" style="display:none; text-align:center;">
+                    <p style="color:var(--gold);">Inquiry Sent. We will contact you shortly.</p>
                 </div>
             </div>
         </div>
     </section>
-<footer>
-    <div class="f-brand">
-        <div class="footer-logo">OLB</div>
-        <p class="f-tagline">Nigerian cultural heritage reimagined for the global urban citizen. Hand-crafted in the heart of Ibadan.</p>
+
+    <div id="vault">
+        <div style="display:flex; justify-content:space-between; margin-bottom:40px;">
+            <span onclick="toggleVault()" style="cursor:pointer; font-size: 10px;">[ CLOSE ]</span>
+            <span style="color:var(--gold); letter-spacing:3px; font-size:10px;">YOUR VAULT</span>
+        </div>
+        <div id="vault-items"></div>
+        <div style="margin-top:auto; border-top: 1px solid var(--gold); padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:900;">
+                <span>TOTAL</span>
+                <span id="vault-total">₦0</span>
+            </div>
+            <button class="checkout-btn" onclick="window.location.href='securecheckout.html'">Proceed to Checkout</button>
+        </div>
     </div>
 
-    <div class="f-links">
-        <h4>PAGES</h4>
-        <a href="thesoul.html">The Soul</a>
-        <a href="#archive">Archive</a>
-        <a href="bespokeatelier.html">Bespoke Atelier</a>
-    </div>
-
-    <div class="f-links">
-        <h4>TRUST</h4>
-        <a href="securecheckout.html">Secure Checkout</a>
-        <a href="ibadanshipping.html">Ibadan Shipping</a>
-        <a href="paystackprotected.html">Paystack Protected</a>
-    </div>
-
-    <div class="badge-row">
-        <span>SSL ENCRYPTION</span>
-        <span class="dot">•</span>
-        <span>₦ NAIRA CHECKOUT</span>
-        <span class="dot">•</span>
-        <span>IBADAN, NIGERIA</span>
-    </div>
-</footer>
+    <footer>
+        <div>
+            <div class="logo" style="margin-bottom:20px;">OLB</div>
+            <p style="font-size:10px; opacity:0.5; line-height:2;">Hand-crafted heritage from the heart of Ibadan, Nigeria. Global logistics provided.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <span style="color:var(--gold); font-size:10px;">NAVIGATION</span>
+            <a href="ibadanshipping.html" style="color:#fff; text-decoration:none; font-size:10px;">Track Order</a>
+            <a href="shopnow.html" style="color:#fff; text-decoration:none; font-size:10px;">All Products</a>
+        </div>
+    </section>
 
     <div class="mobile-nav">
-    <span class="nav-link" onclick="toggleSearch()">Search</span>
-    <span class="nav-link" id="vault-count-mobile" onclick="toggleVault()">Cart (0)</span>
-    <a href="https://wa.me/2349060369930" class="nav-link" style="color:var(--gold)">Whatsapp</a>
-</div>
+        <span onclick="toggleVault()" class="nav-link" id="vault-count-mobile">Vault (0)</span>
+        <a href="https://wa.me/2349060369930" class="nav-link" style="color:var(--gold)">WhatsApp</a>
+    </div>
 
     <script>
-        // Core UI Functions
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
-        function toggleSearch() { document.getElementById('search-drawer').classList.toggle('active'); }
-        function toggleVault() { document.getElementById('vault').classList.toggle('open'); }
-        // function openWhatsApp() { window.open(`https://wa.me/2349060369930?text=${encodeURIComponent("Hello OLB Atelier, I am interested in a private commission.")}`, '_blank'); }
+        let vaultData = JSON.parse(localStorage.getItem('olb_vault')) || [];
 
-        // Vault Logic
-       let vaultData = JSON.parse(localStorage.getItem('olb_vault')) || [];
+        function toggleVault() { document.getElementById('vault').classList.toggle('open'); }
 
         function addToVault(button) {
-    const card = button.closest('.product-card') || button.closest('.artifact-card');
-    const product = {
-        id: card.dataset.id,
-        name: card.dataset.name,
-        price: parseInt(card.dataset.price)
-    };
-
-    vaultData.push(product);
-    saveAndUpdate();
-    document.getElementById('vault').classList.add('open'); // Show the vault immediately
-}
-// PERSISTENCE & UI UPDATE
-function saveAndUpdate() {
-    localStorage.setItem('olb_vault', JSON.stringify(vaultData));
-    updateVaultUI();
-}
-        function updateVaultUI() {
-    const container = document.getElementById('vault-items');
-    const totalElement = document.getElementById('vault-total');
-    
-    // Update all Vault counters on the page (Mobile Nav, Desktop Header)
-    const counters = document.querySelectorAll('#vault-count');
-    
-    if (container) container.innerHTML = '';
-    let total = 0;
-
-    if (vaultData.length === 0 && container) {
-        container.innerHTML = '<p style="font-size:10px; opacity:0.3; margin-top:20px; letter-spacing:2px;">CART IS EMPTY</p>';
-    }
-
-    vaultData.forEach((item, index) => {
-        total += item.price;
-        if (container) {
-            container.innerHTML += `
-                <div class="vault-item">
-                    <div>
-                        <p style="font-size: 11px; font-weight: 600; letter-spacing:1px;">${item.name}</p>
-                        <span style="font-size: 8px; opacity: 0.5; cursor:pointer; text-decoration:underline;" onclick="removeItem(${index})">REMOVE</span>
-                    </div>
-                    <div style="color:var(--gold); font-weight:600; font-size:12px;">₦${item.price.toLocaleString()}</div>
-                </div>
-            `;
+            const card = button.closest('.artifact-card');
+            const item = { name: card.dataset.name, price: parseInt(card.dataset.price) };
+            vaultData.push(item);
+            saveAndUpdate();
+            toggleVault();
         }
-    });
 
-    if (totalElement) totalElement.innerText = `₦${total.toLocaleString()}`;
-    
-    // Update labels like "Vault (0)"
-    counters.forEach(c => {
-        c.innerText = `Vault (${vaultData.length})`;
-    });
-}
-
-        function removeItem(index) {
-    vaultData.splice(index, 1);
-    saveAndUpdate();
-}
-
-        function initiateCheckout() {
-    if (vaultData.length === 0) {
-        alert("Your cart is empty.");
-        return;
-    }
-    // Redirect to the secure checkout page
-    window.location.href = 'securecheckout.html';
-}
-        
-
-function openWhatsApp() {
-    const phone = "2349060369930";
-    const message = "Hello OLB Atelier, I am interested in a private commission from the Ibadan workshop.";
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-}
-
-// Initialize the UI as soon as the page loads
-updateVaultUI();
-
-document.getElementById('wholesale-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop page refresh
-
-    const submitBtn = document.getElementById('w-submit');
-    const form = document.getElementById('wholesale-form');
-    const statusDiv = document.getElementById('wholesale-status');
-
-    // Show loading state
-    submitBtn.innerText = "SENDING...";
-    submitBtn.style.opacity = "0.5";
-    submitBtn.disabled = true;
-
-    // Data to send
-    const formData = {
-        business: document.getElementById('w-biz').value,
-        email: document.getElementById('w-email').value,
-        volume: document.getElementById('w-vol').value,
-        subject: "NEW WHOLESALE INQUIRY: " + document.getElementById('w-biz').value
-    };
-
-    // Replace 'YOUR_FORMSPREE_ID' with the ID you get from formspree.io
-    fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        if (response.ok) {
-            form.style.display = "none";
-            statusDiv.style.display = "block";
-        } else {
-            alert("Atelier Server Busy. Please email logistics@olbclothings.com directly.");
-            submitBtn.innerText = "REQUEST LINE SHEET";
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = "1";
+        function saveAndUpdate() {
+            localStorage.setItem('olb_vault', JSON.stringify(vaultData));
+            updateUI();
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Connection Error. Please check your internet.");
-    });
-});
+
+        function updateUI() {
+            const container = document.getElementById('vault-items');
+            const totalEl = document.getElementById('vault-total');
+            const counts = [document.getElementById('vault-count'), document.getElementById('vault-count-mobile')];
+            
+            let total = 0;
+            container.innerHTML = '';
+            
+            vaultData.forEach((item, i) => {
+                total += item.price;
+                container.innerHTML += `<div class="vault-item">
+                    <span>${item.name}</span>
+                    <span style="color:var(--gold)">₦${item.price.toLocaleString()}</span>
+                </div>`;
+            });
+
+            totalEl.innerText = `₦${total.toLocaleString()}`;
+            counts.forEach(c => { if(c) c.innerText = `Vault (${vaultData.length})`; });
+        }
+
+        function openWhatsApp() {
+            window.open("https://wa.me/2349060369930?text=Hello%20OLB%20Atelier,%20I%20am%20interested%20in%20a%20commission.", "_blank");
+        }
+
+        document.getElementById('wholesale-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.style.display = 'none';
+            document.getElementById('wholesale-status').style.display = 'block';
+            // Integration: Add your Formspree fetch here as shown in previous step
+        });
+
+        updateUI();
     </script>
 </body>
 </html>
